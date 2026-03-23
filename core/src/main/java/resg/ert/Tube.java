@@ -13,13 +13,14 @@ public class Tube {
     Texture textureUpperTube;
     Texture textureDownTube;
     Random random = new Random();
-    int width = 200;
+    int width = 250;
     int height = 700;
     int x;
     int gapHeight = 400;
     int gapY;
     int padding = 20;
     int distanceBetweenTubes;
+
     Bird bird;
 
     public Tube(int tubeCount , int tubeInx){
@@ -31,14 +32,24 @@ public class Tube {
         x = distanceBetweenTubes * tubeInx + SCR_WIDTH;
 
     }
-    int speed = 10;
+    int speed = 5;
+    boolean iSPointReceived;
     public void move(){
         x -= speed;
         if (x <= - height){
+            iSPointReceived = false;
             x =  SCR_WIDTH;
             gapY = gapHeight / 2 + random.nextInt(SCR_HEIGHT - 2*(padding + gapHeight/2));
         }
 
+    }
+    public boolean NeedAddPoint(Bird bird){
+        if (bird.x > x + width && !iSPointReceived ){
+            iSPointReceived = true;
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public void drow(Batch batch ){
@@ -57,6 +68,9 @@ public class Tube {
         }else {
             return false;
         }
+    }
+    public void setPointReceived(){
+        iSPointReceived = true;
     }
 
 

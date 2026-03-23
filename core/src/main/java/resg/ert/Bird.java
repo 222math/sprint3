@@ -1,8 +1,13 @@
 package resg.ert;
 
+
+import static java.lang.Math.min;
+
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import static resg.ert.Main.SCR_HEIGHT;
+import static resg.ert.Main.SCR_WIDTH;
 
 public class Bird {
     int x = 0, y = 0;
@@ -41,10 +46,7 @@ public class Bird {
         this.height = height;
         this.width = width;
     }
-    float g = 1.05F;
-
-
-
+    float g = 20F;
 
 
 
@@ -52,17 +54,21 @@ public class Bird {
 
     public void fly(){
         if (y >= heightOfJump){
-            speedy = speed;
+
             jump = false;
             t = 0;
         }
         if (jump){
             t += 1;
-            y += speed - (t/25)*g;;
+            y += (speed - (t/25)*g);;
         } else {
             t += 1;
-            speedy = speed;
-            y -= speed/2;
+            while (speed/5 > t*g){
+                y -= t*g;
+            }
+            if (speed/5 < t*g){
+                y -= speed/4;
+            }
         }
     }
     int periud;
@@ -81,6 +87,16 @@ public class Bird {
     }
     public void dispose(){
         texture.dispose();
+    }
+    public boolean inField(){
+        if (y > SCR_HEIGHT){
+            return false;
+        }
+        if (y + height < 0){
+            return false;
+        } else {
+            return true;
+        }
     }
 
 
