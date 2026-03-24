@@ -2,11 +2,8 @@ package resg.ert;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 
-import java.awt.Font;
 
 public class ScreenGame implements Screen {
 
@@ -14,9 +11,11 @@ public class ScreenGame implements Screen {
 
     Bird bird;
     Tube tube;
+    MovingBackground movingBackground;
     PointCounter pointCounter;
     int tubeCount = 2;
     Tube[] tubes;
+    MovingBackground[] backgrounds;
     int gamePoints;
     private void initTubes(){
         tubes = new Tube[tubeCount];
@@ -24,11 +23,18 @@ public class ScreenGame implements Screen {
             tubes[i] = new Tube(tubeCount , i);
         }
     }
+    private void initMovingBackground(){
+        backgrounds = new MovingBackground[2];
+        for (int i = 0; i < 2; i++) {
+            backgrounds[i] = new MovingBackground(i);
+        }
+    }
 
     ScreenGame(Main main) {
         this.main = main;
         bird = new Bird(300, 500 , 15 , 250 , 200 );
         pointCounter = new PointCounter(25 , 100);
+        initMovingBackground();
         initTubes();
 
     }
@@ -65,6 +71,9 @@ public class ScreenGame implements Screen {
                 tube.setPointReceived();
             }
         }
+        for (MovingBackground movingBackground : backgrounds) {
+            movingBackground.move();
+        }
 
 
         ScreenUtils.clear(1, 0, 0, 1);
@@ -72,7 +81,10 @@ public class ScreenGame implements Screen {
         main.batch.setProjectionMatrix(main.camera.combined);
         main.batch.begin();
 
+        for (MovingBackground movingBackground : backgrounds) movingBackground.draw(main.batch);
+
         bird.draw(main.batch);
+
 
         for (Tube tube : tubes) tube.drow(main.batch);
 
@@ -107,5 +119,6 @@ public class ScreenGame implements Screen {
         bird.dispose();
         tube.dispose();
         pointCounter.dispose();
+        movingBackground.dispose();
     }
 }

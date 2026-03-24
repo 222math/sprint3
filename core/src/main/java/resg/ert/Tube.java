@@ -28,7 +28,6 @@ public class Tube {
         textureDownTube = new Texture("tubes/tube.png");
         gapY  = gapHeight / 2 + random.nextInt(SCR_HEIGHT - 2*(padding + gapHeight/2));
         distanceBetweenTubes = (SCR_WIDTH + width)/(tubeCount - 1);
-
         x = distanceBetweenTubes * tubeInx + SCR_WIDTH;
 
     }
