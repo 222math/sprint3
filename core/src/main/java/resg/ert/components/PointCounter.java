@@ -1,4 +1,4 @@
-package resg.ert;
+package resg.ert.components;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -10,7 +10,7 @@ public class PointCounter {
     BitmapFont font;
 
 
-    PointCounter(int x , int y){
+    public PointCounter(int x, int y){
         this.x = x;
         this.y = y;
 

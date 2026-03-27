@@ -1,16 +1,15 @@
-package resg.ert;
+package resg.ert.characters;
 
 
 import static java.lang.Math.min;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
 import static resg.ert.Main.SCR_HEIGHT;
-import static resg.ert.Main.SCR_WIDTH;
 
 public class Bird {
-    int x = 0, y = 0;
+    int x, y;
     int speed = 0;
     boolean jump;
 
@@ -21,7 +20,7 @@ public class Bird {
     final int maxHeightOfJump = 100;
     float speedy;
     int t = 0;
-    void OnClick(){
+    public void OnClick(){
         t = 0;
         speedy = speed;
         jump = true;

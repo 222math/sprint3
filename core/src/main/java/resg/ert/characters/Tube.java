@@ -1,4 +1,4 @@
-package resg.ert;
+package resg.ert.characters;
 
 import static resg.ert.Main.SCR_HEIGHT;
 import static resg.ert.Main.SCR_WIDTH;
