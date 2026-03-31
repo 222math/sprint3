@@ -5,9 +5,8 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 
-import java.util.Vector;
-
 import resg.ert.Main;
+import resg.ert.components.MaxGamePoint;
 import resg.ert.components.MovingBackground;
 import resg.ert.components.PointCounter;
 import resg.ert.components.TextButton;
@@ -17,11 +16,14 @@ public class ScreenRestart implements Screen {
 
     MovingBackground movingBackground;
 
-    TextButton textButton;
+    TextButton textButtonRestart;
+    TextButton textButtonInMenu;
 
     PointCounter pointCounter;
 
     ScreenGame screenGame;
+    MaxGamePoint maxGamePoint;
+    ScreenMenu screenMenu;
 
     int gamePoint;
 
@@ -33,11 +35,13 @@ public class ScreenRestart implements Screen {
         this.gamePoint = gamePoints;
 
         movingBackground = new MovingBackground("background/restart_bg.png");
-        textButton = new TextButton(300 , 300 , "restart");
+        textButtonRestart = new TextButton(300 , 350 , "restart" , "button/button_bg.png");
+        textButtonInMenu = new TextButton(300 , 125 , "in menu" , "button/button_red.png");
         screenGame = new ScreenGame(main);
         pointCounter = new PointCounter(25 , 100);
-
-
+        main.IsMaxGamePoint(gamePoint);
+        maxGamePoint = new MaxGamePoint(350 , 650 , main.maxGamePoint);
+        screenMenu = new ScreenMenu(main);
 
     }
 
@@ -53,9 +57,13 @@ public class ScreenRestart implements Screen {
             Vector3 touch = main.camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
             x = (int) touch.x;
             y = (int) touch.y;
-            if (textButton.IsHit(x, y)) {
+            if (textButtonRestart.IsHit(x, y)) {
                 ScreenGame screenGame = new ScreenGame(main);
                 main.setScreen(screenGame);
+            }
+            if (textButtonInMenu.IsHit(x, y)) {
+                ScreenMenu screenMenu = new ScreenMenu(main);
+                main.setScreen(screenMenu);
             }
         }
 
@@ -64,9 +72,11 @@ public class ScreenRestart implements Screen {
         main.batch.setProjectionMatrix(main.camera.combined);
         main.batch.begin();
 
-        movingBackground.draw(main.batch , movingBackground.x1);
-        textButton.drow(main.batch);
+        movingBackground.draw(main.batch);
+        textButtonRestart.drow(main.batch);
+        textButtonInMenu.drow(main.batch);
         pointCounter.draw(main.batch , gamePoint);
+        maxGamePoint.drow(main.batch);
 
         main.batch.end();
 
@@ -94,7 +104,8 @@ public class ScreenRestart implements Screen {
 
     @Override
     public void dispose() {
-    textButton.dispose();
+    textButtonRestart.dispose();
+    maxGamePoint.dispose();
 
     }
 }

@@ -15,15 +15,17 @@ public class Tube {
     Random random = new Random();
     int width = 250;
     int height = 700;
-    int x;
-    int gapHeight = 400;
-    int gapY;
-    int padding = 20;
+    public float x;
+    public int gapHeight = 400;
+    public int gapY;
+    int padding = 50;
     int distanceBetweenTubes;
+    public int tubeInx;
 
     Bird bird;
 
     public Tube(int tubeCount , int tubeInx){
+        this.tubeInx =tubeInx;
         textureUpperTube = new Texture("tubes/tube_flipped.png");
         textureDownTube = new Texture("tubes/tube.png");
         gapY  = gapHeight / 2 + random.nextInt(SCR_HEIGHT - 2*(padding + gapHeight/2));
@@ -31,10 +33,10 @@ public class Tube {
         x = distanceBetweenTubes * tubeInx + SCR_WIDTH;
 
     }
-    int speed = 5;
+    int speed = 300;
     boolean iSPointReceived;
-    public void move(){
-        x -= speed;
+    public void move(float deltaTime){
+        x -= speed*deltaTime;
         if (x <= - height){
             iSPointReceived = false;
             x =  SCR_WIDTH;

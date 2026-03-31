@@ -17,20 +17,20 @@ public class TextButton {
     int textX , textY;
     int textWidth , textHeight;
     int buttonWidth = 700, buttonHeight = 200;
-    public TextButton(int x , int y , String text){
+    public TextButton(int x , int y , String text , String pathToTexture){
         this.x = x;
         this.y = y;
         this.text = text;
 
         font = new BitmapFont();
         font.getData().setScale(5f);
-        font.setColor(Color.YELLOW);
+        font.setColor(Color.WHITE);
 
         GlyphLayout gl = new GlyphLayout(font , text);
         textHeight = (int) gl.height;
         textWidth = (int) gl.width;
 
-        texture = new Texture("button/button_bg.png");
+        texture = new Texture(pathToTexture);
         textX = x + (buttonWidth - textWidth)/2;
         textY = y + (buttonHeight + textHeight)/2;
     }

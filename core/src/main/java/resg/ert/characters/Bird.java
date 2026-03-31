@@ -3,28 +3,40 @@ package resg.ert.characters;
 
 import static java.lang.Math.min;
 
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 
 import static resg.ert.Main.SCR_HEIGHT;
 
+import resg.ert.Main;
+import resg.ert.screens.ScreenGameNorm;
+
 public class Bird {
-    int x, y;
-    int speed = 0;
+    int x;
+    public float y;
+    float speed;
     boolean jump;
 
     int frameCounter;
     Texture [] framesArray;
 
     int heightOfJump;
+    ScreenGameNorm screenGameNorm;
     final int maxHeightOfJump = 100;
     float speedy;
     int t = 0;
-    public void OnClick(){
-        t = 0;
-        speedy = speed;
-        jump = true;
-        heightOfJump = maxHeightOfJump + y;
+    public void OnClick(String screen) {
+        if (!screen.equals("ScreenGameNorm")){
+            speedy = speed;
+            jump = true;
+            heightOfJump = (int) (maxHeightOfJump + y);
+        } else {
+            if (!jump){
+                speedy = speed;
+                jump = true;
+            }
+        }
     }
     int width;
     int height;
@@ -44,30 +56,41 @@ public class Bird {
         };
         this.height = height;
         this.width = width;
+
     }
-    float g = 20F;
+    float g = 150F;
 
 
 
 
 
-    public void fly(){
+    public void fly(float deltaTime){
         if (y >= heightOfJump){
-
+            speedy = g*deltaTime;
             jump = false;
-            t = 0;
+
         }
         if (jump){
-            t += 1;
-            y += (speed - (t/25)*g);;
+            speedy -= g*deltaTime;
+            y += speedy*deltaTime;
         } else {
-            t += 1;
-            while (speed/5 > t*g){
-                y -= t*g;
+            if (speed >= speedy){
+                speedy += g*deltaTime;
+                y -= g*deltaTime;
             }
-            if (speed/5 < t*g){
-                y -= speed/4;
+            if (speed < speedy){
+                y -= speed/2*deltaTime;
             }
+        }
+    }
+    public  void slideJump(float deltaTime , int floorX){
+        if (y < floorX){
+            jump = false;
+            y = floorX;
+        }
+        if (jump){
+            speedy -= g*deltaTime;
+            y += speedy*deltaTime;
         }
     }
     int periud;
