@@ -1,11 +1,9 @@
-package io.spaseCleaner.lwjgl3;
-
-import static io.spaseCleaner.GameSetting.SCR_HEIGHT;
-import static io.spaseCleaner.GameSetting.SCR_WIDTH;
+package resg.ert.lwjgl3;
 
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import io.spaseCleaner.Main;
+import resg.ert.Main;
+
 
 /** Launches the desktop (LWJGL3) application. */
 public class Lwjgl3Launcher {
@@ -20,7 +18,7 @@ public class Lwjgl3Launcher {
 
     private static Lwjgl3ApplicationConfiguration getDefaultConfiguration() {
         Lwjgl3ApplicationConfiguration configuration = new Lwjgl3ApplicationConfiguration();
-        configuration.setTitle("Space Cleaner ");
+        configuration.setTitle("Happy Flappy bird");
         //// Vsync limits the frames per second to what your hardware can display, and helps eliminate
         //// screen tearing. This setting doesn't always work on Linux, so the line after is a safeguard.
         configuration.useVsync(true);
@@ -31,7 +29,7 @@ public class Lwjgl3Launcher {
         //// useful for testing performance, but can also be very stressful to some hardware.
         //// You may also need to configure GPU drivers to fully disable Vsync; this can cause screen tearing.
 
-        configuration.setWindowedMode(SCR_WIDTH, SCR_HEIGHT);
+        configuration.setWindowedMode(1280 , 720);
         //// You can change these files; they are in lwjgl3/src/main/resources/ .
         //// They can also be loaded from the root of assets/ .
         configuration.setWindowIcon("libgdx128.png", "libgdx64.png", "libgdx32.png", "libgdx16.png");
