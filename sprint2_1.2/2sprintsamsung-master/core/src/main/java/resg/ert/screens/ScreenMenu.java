@@ -41,7 +41,7 @@ public class ScreenMenu implements Screen {
             x = (int) touch.x;
             y = (int) touch.y;
             if (textButton1.IsHit(x, y)) {
-                ScreenGame screenGame = new ScreenGame(main);
+                ScreenGame screenGame = new ScreenGame(main , true);
                 main.setScreen(screenGame);
             }
             if (textButton2.IsHit(x, y)) {

@@ -3,12 +3,10 @@ package resg.ert.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.utils.ScreenUtils;
-
 import resg.ert.characters.Bird;
 import resg.ert.characters.Portals;
 import resg.ert.characters.Tube;
 import resg.ert.Main;
-import resg.ert.components.MaxGamePoint;
 import resg.ert.components.MovingBackground;
 import resg.ert.components.PointCounter;
 
@@ -26,6 +24,7 @@ public class ScreenGame implements Screen {
     Portals portals;
 
     int tubeCount = 4;
+    boolean next;
     Tube[] tubes;
     MovingBackground[] backgrounds;
     int gamePoints;
@@ -39,13 +38,14 @@ public class ScreenGame implements Screen {
     }
 
 
-    public ScreenGame(Main main) {
+    public ScreenGame(Main main ,boolean next) {
         this.main = main;
         bird = new Bird(300, 500 , 500 , 200 , 175 );
         pointCounter = new PointCounter(25 , 100);
         movingBackground = new  MovingBackground("background/game_bg.png");
         initTubes();
         portals = new Portals();
+        this.next = next;
     }
 
 
@@ -54,8 +54,11 @@ public class ScreenGame implements Screen {
     @Override
     public void show() {
         isGameOver = false;
-        gamePoints = 0;
-
+        if (next) {
+            gamePoints = 0;
+        } else {
+            gamePoints += 10;
+        }
     }
 
     @Override
@@ -96,8 +99,8 @@ public class ScreenGame implements Screen {
                 System.out.println(gamePoints);
                 tube.setPointReceived();
             }
-            if (portals.isInPortal(bird) && gamePoints >= 9){
-                screenGameNorm = new ScreenGameNorm(this.main);
+            if (portals.isInPortal(bird) && gamePoints >= 9 && gamePoints<= 15){
+                screenGameNorm = new ScreenGameNorm(this.main , gamePoints);
                 main.setScreen(screenGameNorm);
             }
         }

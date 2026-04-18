@@ -22,6 +22,7 @@ public class Tube {
     int distanceBetweenTubes;
     public int tubeInx;
 
+    //декомпозировать надо
     Bird bird;
 
     public Tube(int tubeCount , int tubeInx){

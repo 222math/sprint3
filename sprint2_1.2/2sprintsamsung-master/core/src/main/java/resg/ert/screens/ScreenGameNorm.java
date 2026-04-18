@@ -7,9 +7,11 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 import resg.ert.Main;
 import resg.ert.characters.Bird;
+import resg.ert.characters.Portals;
 import resg.ert.characters.Thorns;
 import resg.ert.characters.Tube;
 import resg.ert.components.MovingBackground;
+import resg.ert.components.PointCounter;
 
 public class ScreenGameNorm implements Screen {
 
@@ -20,19 +22,27 @@ public class ScreenGameNorm implements Screen {
     int thornsCount = 5;
     public int floorY = 150;
     Thorns[] thorns;
+    Portals portals;
+    PointCounter pointCounter;
+    ScreenGame screenGame;
     void initThorns(){
         thorns = new Thorns[thornsCount];
         for (int i = 0; i < thornsCount; i++) {
             thorns[i] = new Thorns(i);
         }
     }
+    int gamePoints;
 
-    public ScreenGameNorm(Main main){
+    public ScreenGameNorm(Main main , int gamePoint){
         this.main = main;
         bird = new Bird(350 , floorY, 200 ,  100 , 100);
         movingBackground = new MovingBackground("background/cube_bg.png");
         floor = new Texture("background/floor.png");
         initThorns();
+        this.gamePoints = gamePoint;
+        portals = new Portals();
+        pointCounter = new PointCounter(450 , 500);
+
     }
 
 
@@ -51,15 +61,28 @@ public class ScreenGameNorm implements Screen {
     public void render(float delta) {
 
 
+
         float deltaTime = Gdx.graphics.getDeltaTime();
 
         for (int i = 0; i < thornsCount; i++) {
+            if(thorns[i].IsHit(bird)){
+                ScreenRestart screenRestart = new ScreenRestart(this.main , gamePoints);
+                main.setScreen(screenRestart);
+            }
+            if (thorns[i].NeedAddPoint(bird)){
+                gamePoints += 1;
+            }
             if (i == 0){
                 a = 4;
             } else {
                 a = i-1;
             }
             thorns[i].move(deltaTime , thorns[a].x);
+
+        }
+        if (portals.isInPortal(bird) && gamePoints >= 20 &&gamePoints <= 25){
+            screenGame = new ScreenGame(this.main , false);
+            main.setScreen(screenGame);
         }
 
 
@@ -81,6 +104,7 @@ public class ScreenGameNorm implements Screen {
         for (int i = 0; i < thornsCount; i++) {
             thorns[i].draw(main.batch);
         }
+        pointCounter.draw(main.batch , gamePoints);
 
         main.batch.end();
     }
@@ -115,6 +139,15 @@ public class ScreenGameNorm implements Screen {
 
     @Override
     public void dispose() {
+        movingBackground.dispose();
+        main.batch.dispose();
+
+        bird.dispose();
+        for (int i = 0; i < thornsCount; i++) {
+            thorns[i].dispose();
+        }
+        pointCounter.dispose();
+
 
     }
 }
